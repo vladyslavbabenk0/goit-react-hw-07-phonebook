@@ -1,84 +1,48 @@
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from 'redux/contacts/contacts-slice';
-import { getContacts } from 'redux/contacts/contacts-selectors';
-import { Notify } from 'notiflix';
-import css from './ContactForm.module.css';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Form, Label, Input, SubmitButton } from './ContactForm.styled';
+import { useDispatch } from 'react-redux';
+import { addContactsThunk } from '../redux/contactsThunk';
 
-const ContactForm = () => {
-  const [formData, setFormData] = useState({ name: '', number: '' });
-  const contacts = useSelector(getContacts);
+export const ContactForm = () => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
   const dispatch = useDispatch();
 
-  const handleChange = (evt) => {
-    const { name, value } = evt.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (evt) => {
+  const handleSubmit = evt => {
     evt.preventDefault();
-
-    const isNameAdded = contacts.some(
-      (contact) => contact.name.toLowerCase() === formData.name.toLowerCase()
-    );
-
-    const isNumberAdded = contacts.some(
-      (contact) => contact.number === formData.number
-    );
-
-    if (isNameAdded) {
-      Notify.failure(`${formData.name} is already in contacts`);
-    } else if (isNumberAdded) {
-      Notify.failure(`${formData.number} is already in contacts`);
-    } else {
-      onAddContact(formData);
-      setFormData({ name: '', number: '' });
-    }
-  };
-
-  const onAddContact = ({ name, number }) => {
-    const action = addContact({ name, number });
-    dispatch(action);
+    dispatch(addContactsThunk({ name, number }));
+    setName('');
+    setNumber('');
   };
 
   return (
-    <form className={css.form} onSubmit={handleSubmit}>
-      <label className={css.label}>
-        Name
-        <input
-          className={css.inputName}
-          value={formData.name}
-          onChange={handleChange}
+    <Form onSubmit={handleSubmit}>
+      <Label>
+        Name:
+        <Input
           type="text"
-          name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          value={name}
+          onChange={evt => setName(evt.target.value)}
           required
           placeholder="Michael Jordan"
         />
-      </label>
-      <label className={css.label}>
-        Number
-        <input
-          className={css.inputNumber}
-          value={formData.number}
-          onChange={handleChange}
+      </Label>
+      <Label>
+        Number:
+        <Input
           type="tel"
-          name="number"
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          value={number}
+          onChange={evt => setNumber(evt.target.value)}
           required
           placeholder="+380 000 000 000"
         />
-      </label>
-      <button className={css.buttonAdd} type="submit">
-        Add contact
-      </button>
-    </form>
+      </Label>
+      <SubmitButton type="submit">Add Contact</SubmitButton>
+    </Form>
   );
 };
 
-export default ContactForm;
+ContactForm.propTypes = {
+  onSubmit: PropTypes.func,
+};

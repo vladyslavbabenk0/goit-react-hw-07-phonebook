@@ -1,66 +1,61 @@
-import { useEffect, useState } from 'react';
-import { nanoid } from 'nanoid';
-import css from './App.module.css';
-import ContactForm from '../ContactForm/ContactForm';
-import ContactList from '../ContactList/ContactList';
+import { useEffect } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { delContactsThunk, fetchContactsThunk } from '../redux/contactsThunk';
+import { setFilter } from '../redux/filterSlice';
+import { ContactForm } from '../ContactForm/ContactForm';
+import { ContactList } from '../ContactList/ContactList';
 import Filter from '../Filter/Filter';
 
+import {
+  Container,
+  Wrapper,
+  Title,
+  SubTitle,
+} from './App.styled';
+
 const App = () => {
-  const [filter, setFilter] = useState('');
-  const [contacts, setContacts] = useState(() => {
-    return JSON.parse(window.localStorage.getItem('contacts')) ?? [];
-  });
+
+
+  const contacts = useSelector(state => state.contacts.items);
+  const filter = useSelector(state => state.filter.value);
+  const dispatch = useDispatch();
+  const deleteContact = id => {
+    dispatch(delContactsThunk(id));
+  };
+
+  const handleFilterChange = event => {
+    dispatch(setFilter(event.target.value));
+  };
+
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
 
   useEffect(() => {
-    window.localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
-
-  const addNewContact = ({ name, number }) => {
-    const newContact = {
-      id: nanoid(10),
-      name: name,
-      number: number,
-    };
-
-    if (contacts.find((contact) => contact.name === newContact.name)) {
-      alert(`${newContact.name} is already in your contacts.`);
-    } else {
-      setContacts((prevContacts) => [...prevContacts, newContact]);
-    }
-  };
-
-  const handleDelete = (deleteID) => {
-    setContacts((prevContacts) =>
-      prevContacts.filter((contact) => contact.id !== deleteID)
-    );
-  };
-
-  const handleFilterChange = (evt) => {
-    setFilter(evt.currentTarget.value);
-  };
-
-  const getVisibleContacts = () => {
-    const normalizedFilter = filter.toLowerCase();
-    return contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
-  };
-
-  const visibleContacts = getVisibleContacts();
+    dispatch(fetchContactsThunk());
+  }, [dispatch]);
 
   return (
-    <div className={css.container}>
-      <div className={css.wrapper}>
-        <header className={css.header}>
-          <h1 className={css.phonebookTitle}>Phonebook</h1>
-          <ContactForm onSubmit={addNewContact} />
-        </header>
-        <section className={css.contactsSection}>
-          <h2 className={css.contactListTitle}>Contacts</h2>
-          <Filter filter={filter} handleFilterChange={handleFilterChange} />
-          <ContactList contactList={visibleContacts} handleDelete={handleDelete} />
-        </section>
-      </div>
+    <div>
+        <Container>
+          <Title>
+            Phone book
+          </Title>
+          <ContactForm />
+          <SubTitle>Contacts</SubTitle>
+          {contacts.length > 0 ? (
+            <Filter value={filter} onChangeFilter={handleFilterChange} />
+          ) : (
+            <Wrapper>Your phonebook is empty. Add the first contact!</Wrapper>
+          )}
+          {contacts.length > 0 && (
+            <ContactList
+              contacts={filteredContacts}
+              onDeleteContact={deleteContact}
+            />
+          )}
+        </Container>
     </div>
   );
 };
