@@ -1,0 +1,32 @@
+.contactItem {
+    color: #000;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Calluna;
+    font-size: 16px;
+    line-height: normal;
+    letter-spacing: 1px;
+  }
+  
+  .contactItemBtn {
+    background-color: #FF8500;
+    border: none;
+    outline: none;
+    border-radius: 45px;
+    height: 30px;
+    min-width: 80px;
+    max-width: 80px;
+    color: #fff;
+    font-family: Calluna;
+    font-size: 16px;
+    line-height: normal;
+    letter-spacing: 1px;
+  }
+  
+  .contactItemBtn:hover,
+  .contactItemBtn:focus {
+    background: #00B945;
+  }
+  

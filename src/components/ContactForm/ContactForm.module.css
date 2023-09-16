@@ -1,0 +1,59 @@
+.label {
+  margin-bottom: 10px;
+}
+
+.form {
+  width: 390px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 99px;
+}
+
+.inputName {
+  margin-left: 28px;
+  border-width: 1px;
+  font-size: 18px;
+  border-radius: 20px;
+}
+
+.inputNumber {
+  composes: inputName;
+  margin-left: 10px;
+  border-radius: 99px;
+}
+
+.inputName:focus,
+.inputName:hover,
+.inputName:active {
+  outline-color: rgb(0, 128, 255);
+}
+
+.buttonAdd {
+  width: 300px;
+  height: 40px;
+  color: rgb(255, 255, 255);
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-size: 18px;
+  font-family: 'Calluna', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  background-color: #6609e0;
+  line-height: 42px;
+  padding: 0;
+  border: none;
+  margin-top: 10px;
+}
+
+.buttonAdd:hover,
+.buttonAdd:focus {
+  background-color: #0b0b0b;
+  opacity: 20%;
+}

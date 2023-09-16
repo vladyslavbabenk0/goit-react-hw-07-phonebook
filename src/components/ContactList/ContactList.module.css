@@ -1,0 +1,9 @@
+.list {
+    font-family: Calluna;
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 4px;
+  }

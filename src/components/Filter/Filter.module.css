@@ -1,0 +1,19 @@
+.filter {
+  margin-bottom: 15px;
+}
+
+.filterInput {
+  font-family: Calluna;
+  margin-left: 20px;
+  border-width: 1px;
+  border-color: rgb(13, 13, 12);
+  font-size: 18px;
+  margin-top: 20px;
+  border-radius: 99px;
+}
+
+.filterInput:focus,
+.filterInput:hover,
+.filterInput:active {
+  outline-color: black;
+}

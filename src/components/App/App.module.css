@@ -1,0 +1,41 @@
+.container {
+  background-color: #ffffff;
+  margin: 0 auto;
+  max-width: 40%;
+  width: 500px;
+  border-radius: 45px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  padding-inline: 50px;
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 10%;
+}
+
+.phonebookTitle {
+  color: #0776A0;
+  font-family: Calluna;
+  font-size: 24px;
+  font-weight: 600;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 1px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.contactListTitle {
+  color: #0776A0;
+  font-family: Calluna;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+}
+
+.wrapper {
+  max-width: 300px;
+  margin: 0 auto;
+}
