@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Label, Input, SubmitButton } from './ContactForm.styled';
 import { useDispatch } from 'react-redux';
-import { addContactsThunk } from '../redux/contactsThunk';
+import { addContactsThunk } from '../../redux/contactsThunk';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
